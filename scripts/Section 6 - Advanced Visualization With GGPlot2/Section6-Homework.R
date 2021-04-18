@@ -7,57 +7,21 @@ str(mov)
 #install.packages("ggplot2")
 library(ggplot2)
 
-ggplot(data=mov, aes(x=Day.of.Week)) + geom_bar()
+filt <- mov$Genre %in% c("action", "adventure", "animation", "comedy", "drama")
 
-filt <- (mov$Genre == "action") | (mov$Genre == "adventure") | (mov$Genre == "animation") | (mov$Genre == "comedy") | (mov$Genre == "drama")
+filt2 <- mov$Studio %in% c("Buena Vista Studios", "WB", "Fox", "Universal", "Sony", "Paramount Pictures")
 
 mov2 <- mov[filt & filt2,]
 
 p <- ggplot(data=mov2, aes(x=Genre, y=Gross...US))
-p
-
-p + 
-  geom_point()
-
-p + 
-  geom_boxplot()
-
-p + 
-  geom_boxplot() + 
-  geom_point()
-
-p + 
-  geom_boxplot() + 
-  geom_jitter()
-
-p + 
-  geom_jitter() + 
-  geom_boxplot() 
-
-p + 
-  geom_jitter() + 
-  geom_boxplot(alpha=0.7) 
-
-p + 
-  geom_jitter(aes(size=Budget...mill., colour=Studio)) + 
-  geom_boxplot(alpha=0.7) 
-
-p + 
-  geom_jitter(aes(size=Budget...mill., colour=Studio)) + 
-  geom_boxplot(alpha = 0.7, outlier.colour = NA) 
-
 q <- p + 
   geom_jitter(aes(size=Budget...mill., colour=Studio)) + 
   geom_boxplot(alpha = 0.7, outlier.colour = NA, size=0.5) 
-q
 
 q <- q +
   xlab("Genre") +
   ylab("Gross % US") +
   ggtitle("Domestic Gross % by Genre")
-q
-
-?theme
 
 q <- q + 
   theme(
@@ -75,7 +39,7 @@ q <- q +
     legend.title = element_text(size=10),
     legend.text = element_text(size=8)
   )
-q
 
 q$labels$size = "Budget $M"
+
 q
